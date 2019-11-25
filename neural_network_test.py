@@ -1,10 +1,13 @@
 # import libraries
+# for image processing
 from skimage import io, color
 from keras.preprocessing.image import array_to_img
 from keras.preprocessing.image import load_img
 from keras.preprocessing.image import img_to_array
+# neural network
 from sklearn.neural_network import MLPRegressor
-# import pickle or/and json to save neural network data
+# so we can save our network
+import pickle
 
 
 #  This might be needed to scale our pictures so they are the same size...
@@ -14,26 +17,6 @@ scaler = StandardScaler()
 scaler.fit(X_train)
 X_train = scaler.transform(X_train)
 X_test = scaler.transform(X_test)
-'''
-
-# example of converting an image with the Keras API
-'''
-from keras.preprocessing.image import load_img
-from keras.preprocessing.image import img_to_array
-from keras.preprocessing.image import array_to_img
-
-# load the image
-img = load_img('bondi_beach.jpg')
-print(type(img))
-
-# convert to numpy array # I hope these are the RGB values here
-img_array = img_to_array(img)
-print(img_array.dtype)
-print(img_array.shape)
-
-# convert back to image
-img_pil = array_to_img(img_array)
-print(type(img))
 '''
 
 
