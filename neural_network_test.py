@@ -42,12 +42,12 @@ Here I just decided to convert to a d2 array for now
 We could also train and run 3 networks, one for each dimension of our 3d array. a newtork for the L, A and B values seperatley
 '''
 
-# train test split
+# train test split, not sure if this is needed
 print("Splitting data")
 x_train, x_test, y_train, y_test = train_test_split(train_data, target_data, test_size = 20, random_state = 50)
 
 
-# train a basic network
+# train a basic network, need to figure out layer sizes
 print("Training network")
 mlp = MLPRegressor(hidden_layer_sizes=(8,8,8), activation='relu', solver='adam', max_iter=5000)
 mlp.fit(x_train,y_train)
