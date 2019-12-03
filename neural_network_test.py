@@ -8,21 +8,20 @@ import numpy as np
 #Keras test
 from keras.models import Sequential
 from keras import layers
+from keras.layers import Conv2D, InputLayer
 
-# import pickle or/and json to save neural network data
+import pickle
 
 # import train and target data
 train = np.array(img_to_array(load_img("image_colorizer/Image_colorizer/test0.jpg")), dtype=float)
-print(train.shape())
+# print(train.shape())
 target = np.array(img_to_array(load_img("image_colorizer/Image_colorizer/target0.jpg")), dtype=float)
 
 
 # convert data from RGB to LAB
 x_train = color.rgb2lab(1.0/255*train)[:,:,0] # rgb has 255 values, lab is a percentage. We just want the l layer
 x_target = color.rgb2lab(1.0/255*train)[:,:,1:] #Gets layers a and b for the color predictions
-x_test = color.rgb2lab(1.0/255*train)[:,:,0]
-y_test = color.rgb2lab(1.0/255*train)[:,:,1:]
-
+# reshape
 x_train = x_train.reshape(1,256,256,1)
 x_target = x_target.reshape(1,256,256,2)
 
