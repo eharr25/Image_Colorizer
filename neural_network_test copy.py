@@ -8,6 +8,7 @@ import numpy as np
 #Keras test
 from tensorflow.keras.models import Sequential
 from tensorflow.keras import layers
+from tensorflow.keras.layers import Conv2D, InputLayer
 #Color imports
 # import pickle or/and json to save neural network data
 
@@ -43,21 +44,26 @@ print(type(img))
 
 
 # import test and train data
-train1 = img_to_array(load_img("train1.jpg"))
+train1 = img_to_array(load_img("test0.jpg"))
 train1 = np.array(train1, dtype=float)
-train2 = img_to_array(load_img("train2.jpg"))
+train2 = img_to_array(load_img("test0.jpg"))
 train2 = np.array(train2, dtype=float)
-test1 = img_to_array(load_img("test1.jpg"))
+test1 = img_to_array(load_img("test0.jpg"))
 test1 = np.array(test1, dtype=float)
-test2 = img_to_array(load_img("test2.jpg"))
+test2 = img_to_array(load_img("test0.jpg"))
 test2 = np.array(test2, dtype=float)
 
+#print(np.shape(x_target))
 # convert data from RGB to LAB
 x_train = color.rgb2lab(1.0/255*train1)[:,:,0] # rgb has 255 values, lab is a percentage. We just want the l layer
 x_target = color.rgb2lab(1.0/255*train1)[:,:,1:] #Gets layers a and b for the color predictions
-x_test = color.rgb2lab(1.0/255*train1)[:,:,0]
-y_test = color.rgb2lab(1.0/255*train1)[:,:,1:]
 
+x_target = x_target / 128
+
+print(x_target[0,0,0])
+
+print(np.shape(x_train))
+print(np.shape(x_target))
 x_train = x_train.reshape(1,256,256,1)
 x_target = x_target.reshape(1,256,256,2)
 
@@ -78,9 +84,12 @@ We could also train and run 3 networks, one for each dimension of our 3d array. 
 
 #print(np.shape(x_train))
 model = Sequential()
-model.add(layers.Dense(256,input_shape=(256,)))
-model.add(layers.Dense(128))
-model.add(layers.Dense(256))
+model.add(InputLayer(input_shape=(None, None, 1)))
+model.add(Conv2D(1, (3, 3), activation='relu', padding='same', strides=2))
+model.summary()
+#model.add(layers.Dense(256,input_shape=(1,256,256)))
+#model.add(layers.Dense(128))
+#model.add(layers.Dense(256))
 
 model.compile(optimizer='rmsprop',loss='mse')
 
