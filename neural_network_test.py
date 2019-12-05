@@ -18,9 +18,11 @@ Convert the Lab image back to RGB.
 '''
 
 # import train and target data
+# colored photo to train on
 train0 = np.array(img_to_array(load_img("image_colorizer/Image_colorizer/target0.jpg")), dtype=float)
 # print(train0.shape)---(256, 256, 3)
-train1 = np.array(img_to_array(load_img("image_colorizer/Image_colorizer/target1.jpg")), dtype=float)
+# our black and white photo to test on
+train1 = np.array(img_to_array(load_img("image_colorizer/Image_colorizer/test0.jpg")), dtype=float)
 # print(train1.shape)---(256, 256, 3)
 
 # convert data from RGB to LAB and normalize-(we normalize by diving by 255--this gives us a value between 0 and 1)
@@ -36,25 +38,20 @@ y = x_target.reshape(1, x_target.shape[0], x_target.shape[1], 2)
 # create model
 model = Sequential()
 model.add(InputLayer(input_shape=(None, None, 1))) # input shape is only needed for first layer? input_shape=(256, 256, 3)
-
 # 3x3 kernel used and 8 filters?
 model.add(Conv2D(8, (3, 3), activation='relu', padding='same', strides=2))
 model.add(Conv2D(16, (3, 3), activation='relu', padding='same'))
 model.add(Conv2D(16, (3, 3), activation='relu', padding='same', strides=2))
 model.add(Conv2D(32, (3, 3), activation='relu', padding='same'))
 model.add(Conv2D(32, (3, 3), activation='relu', padding='same', strides=2))
-
-
 # figure out what this does
 # model.add(layers.MaxPooling2D((2, 2)))
-
 model.add(UpSampling2D((2, 2)))
 model.add(Conv2D(32, (3, 3), activation='relu', padding='same'))
 model.add(UpSampling2D((2, 2)))
 model.add(Conv2D(16, (3, 3), activation='relu', padding='same'))
 model.add(UpSampling2D((2, 2)))
 model.add(Conv2D(2, (3,3), activation='tanh', padding='same'))
-
 # get working after we get NN working better
 '''
 # supposed to soften image
@@ -64,7 +61,7 @@ model.add(Conv2D(2, (3,3), activation='tanh', padding='same'))
 # get summary of layers and compile
 model.summary()
 model.compile(optimizer='adam',loss='mse') # loss='sparse_categorical_crossentropy', optomizer='rmsprop'
-model.fit(x=x,y=y, batch_size=1,verbose=0, epochs=100)
+model.fit(x=x,y=y, batch_size=1,verbose=0, epochs=10000)
 
 # evaluate model
 model.evaluate(x, y, batch_size=1)
@@ -75,8 +72,8 @@ output.shape
 
 # make sure output has the correct shape
 cur = np.zeros(train0.shape)
-cur[:,:,0] = x[0][:,:,0]
-cur[:,:,1:] = output[0]
+cur[:,:,0] = x[0][:,:,0] # L layer?
+cur[:,:,1:] = output[0] # A B layers?
 
 # undo normalization
 # cur=cur*256
