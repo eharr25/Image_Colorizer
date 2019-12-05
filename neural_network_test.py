@@ -55,13 +55,14 @@ model.add(Conv2D(16, (3, 3), activation='relu', padding='same'))
 model.add(UpSampling2D((2, 2)))
 model.add(Conv2D(2, (3,3), activation='tanh', padding='same'))
 
+# get working after we get NN working better
+'''
 # supposed to soften image
 # model.add(layers.Dense(64, activation='relu'))
 # model.add(layers.Dense(10, activation='softmax'))
-
-# get summary of layers
+'''
+# get summary of layers and compile
 model.summary()
-
 model.compile(optimizer='adam',loss='mse') # loss='sparse_categorical_crossentropy', optomizer='rmsprop'
 model.fit(x=x,y=y, batch_size=1,verbose=0, epochs=100)
 
@@ -78,7 +79,7 @@ cur[:,:,0] = x[0][:,:,0]
 cur[:,:,1:] = output[0]
 
 # undo normalization
-cur=cur*256
+# cur=cur*256
 
 # convert to rgb
 rgb_image = lab2rgb(cur)
