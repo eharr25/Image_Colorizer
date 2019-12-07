@@ -27,9 +27,11 @@ def get_images(path, color="lab"):
     for filename in os.listdir(path):
         if filename[0] != '.':
             if color == "lab":
-                images.append(get_lab(np.array(img_to_array(load_img(path + filename)), dtype=float)))
+                img = get_lab(np.array(img_to_array(load_img(path + filename)), dtype=float))
+                images.append(img.reshape(1,img.shape[0],img.shape[1],1))
             else:
-                images.append(get_color(np.array(img_to_array(load_img(path + filename)), dtype=float)))
+                img = get_color(np.array(img_to_array(load_img(path + filename)), dtype=float))
+                images.append(img.reshape(1,img.shape[0],img.shape[1],2))
     return images
 
 #print (get_images("./TrainImages/"))
@@ -46,13 +48,8 @@ Convert the Lab image back to RGB.
 # (samples, rows, cols, channels), so we need to do some reshaping
 # https://keras.io/layers/convolutional/
 x = get_images("./TrainImages/") #l value only
+print(len(x))
 y = get_images("./TrainImages/", color="yes") #a and b values
-    
-x = np.array(x)
-print("X shape: {}".format(x.shape))
-y = np.array(y)
-x = x.reshape(x.shape[0], x.shape[1], x.shape[1], 1)
-y = y.reshape(y.shape[0], y.shape[1], y.shape[1], 2)
 
 # create model
 model = Sequential()
