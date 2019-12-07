@@ -1,12 +1,13 @@
 # import libraries
+import tensorflow as backend
 from skimage.color import lab2rgb, rgb2lab
-from keras.preprocessing.image import array_to_img
-from keras.preprocessing.image import load_img
-from keras.preprocessing.image import img_to_array
+from tensorflow.keras.preprocessing.image import array_to_img
+from tensorflow.keras.preprocessing.image import load_img
+from tensorflow.keras.preprocessing.image import img_to_array
 import numpy as np
-from keras.models import Sequential
-from keras import layers
-from keras.layers import Conv2D, InputLayer, UpSampling2D
+from tensorflow.keras.models import Sequential
+from tensorflow.keras import layers
+from tensorflow.keras.layers import Conv2D, InputLayer, UpSampling2D
 
 import pickle
 
@@ -19,10 +20,10 @@ Convert the Lab image back to RGB.
 
 # import train and target data
 # colored photo to train on
-train0 = np.array(img_to_array(load_img("image_colorizer/Image_colorizer/target0.jpg")), dtype=float)
+train0 = np.array(img_to_array(load_img("target1.jpg")), dtype=float)
 # print(train0.shape)---(256, 256, 3)
 # our black and white photo to test on
-train1 = np.array(img_to_array(load_img("image_colorizer/Image_colorizer/test0.jpg")), dtype=float)
+train1 = np.array(img_to_array(load_img("test0.jpg")), dtype=float)
 # print(train1.shape)---(256, 256, 3)
 
 # convert data from RGB to LAB and normalize-(we normalize by diving by 255--this gives us a value between 0 and 1)
@@ -55,8 +56,8 @@ model.add(Conv2D(2, (3,3), activation='tanh', padding='same'))
 # get working after we get NN working better
 '''
 # supposed to soften image
-# model.add(layers.Dense(64, activation='relu'))
-# model.add(layers.Dense(10, activation='softmax'))
+model.add(layers.Dense(64, activation='relu'))
+model.add(layers.Dense(10, activation='softmax'))
 '''
 # get summary of layers and compile
 model.summary()
@@ -68,13 +69,13 @@ model.evaluate(x, y, batch_size=1)
 
 # make predictions
 output = model.predict(x)
-output.shape
+print(output.shape)
 
 # make sure output has the correct shape
 cur = np.zeros(train0.shape)
 cur[:,:,0] = x[0][:,:,0] # L layer?
 cur[:,:,1:] = output[0] # A B layers?
-
+print(cur.shape)
 # undo normalization
 # cur=cur*256
 
