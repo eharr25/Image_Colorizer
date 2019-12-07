@@ -23,12 +23,13 @@ Convert the Lab image back to RGB.
 train0 = np.array(img_to_array(load_img("target1.jpg")), dtype=float)
 # print(train0.shape)---(256, 256, 3)
 # our black and white photo to test on
-train1 = np.array(img_to_array(load_img("test0.jpg")), dtype=float)
+train1 = np.array(img_to_array(load_img("test1.jpg")), dtype=float)
 # print(train1.shape)---(256, 256, 3)
 
 # convert data from RGB to LAB and normalize-(we normalize by diving by 255--this gives us a value between 0 and 1)
 x_train = rgb2lab(train0/255)[:,:,0] # this is the L layer- the black and white values
-x_target = rgb2lab(train1/255)[:,:,1:] # this is the A and B values; a-magenta-green; b-yellow-blue
+x_target = rgb2lab(train0/255)[:,:,1:] # this is the A and B values; a-magenta-green; b-yellow-blue
+x_target/=128
 
 # The Conv2D layer we will use later expects the inputs and training outputs to be of the following format:
 # (samples, rows, cols, channels), so we need to do some reshaping
@@ -67,17 +68,20 @@ model.fit(x=x,y=y, batch_size=1,verbose=0, epochs=10000)
 # evaluate model
 model.evaluate(x, y, batch_size=1)
 
+# convert to lab- black and white image
+x_train = rgb2lab(train1/255)[:,:,0] # this is the L layer- the black and white values
+z = x_train.reshape(1, x_train.shape[0], x_train.shape[1], 1)
+
 # make predictions
-output = model.predict(x)
+output = model.predict(z)
 print(output.shape)
+output*=128
 
 # make sure output has the correct shape
 cur = np.zeros(train0.shape)
-cur[:,:,0] = x[0][:,:,0] # L layer?
+cur[:,:,0] = z[0][:,:,0] # L layer?
 cur[:,:,1:] = output[0] # A B layers?
 print(cur.shape)
-# undo normalization
-# cur=cur*256
 
 # convert to rgb
 rgb_image = lab2rgb(cur)
