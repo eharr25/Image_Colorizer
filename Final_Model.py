@@ -79,13 +79,13 @@ model.summary()
 model.compile(optimizer='adam',loss='mse') # loss='sparse_categorical_crossentropy', optomizer='rmsprop'
 
 for i,j in enumerate(x):
-    model.fit(x=x[i],y=y[i], batch_size=1,verbose=0, epochs=1000)
+    model.fit(x=x[i],y=y[i], batch_size=1,verbose=1, epochs=1000)
 
 # evaluate model
 # model.evaluate(x, y, batch_size=1)
 
 # convert to lab- black and white image
-z=get_lab(np.array(img_to_array(load_img("./TestImages/test1.jpg")), dtype=float))
+z=get_lab(np.array(img_to_array(load_img("./TestImages/test2.jpg")), dtype=float))
 z = z.reshape(1, z.shape[0], z.shape[1], 1)
 
 # make predictions
@@ -103,4 +103,5 @@ print(cur.shape)
 rgb_image = lab2rgb(cur)
 
 img = array_to_img(rgb_image)
+img.save("./img_predictions/01.jpg")
 img.show()
