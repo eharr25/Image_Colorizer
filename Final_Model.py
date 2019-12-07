@@ -80,14 +80,14 @@ model.add(layers.Dense(10, activation='softmax'))
 # get summary of layers and compile
 model.summary()
 model.compile(optimizer='adam',loss='mse') # loss='sparse_categorical_crossentropy', optomizer='rmsprop'
-model.fit(x=x,y=y, batch_size=1,verbose=0, epochs=10000)
+model.fit(x=x,y=y, batch_size=10,verbose=0, epochs=100)
 
 # evaluate model
-model.evaluate(x, y, batch_size=1)
+model.evaluate(x, y, batch_size=10)
 
 # convert to lab- black and white image
-x_train = rgb2lab(train1/255)[:,:,0] # this is the L layer- the black and white values
-z = x_train.reshape(1, x_train.shape[0], x_train.shape[1], 1)
+z=get_lab(np.array(img_to_array(load_img("./TestImages/test0.jpg")), dtype=float))
+z = z.reshape(1, z.shape[0], z.shape[1], 1)
 
 # make predictions
 output = model.predict(z)
@@ -95,7 +95,7 @@ print(output.shape)
 output*=128
 
 # make sure output has the correct shape
-cur = np.zeros(train0.shape)
+cur = np.zeros(z.shape)
 cur[:,:,0] = z[0][:,:,0] # L layer?
 cur[:,:,1:] = output[0] # A B layers?
 print(cur.shape)
