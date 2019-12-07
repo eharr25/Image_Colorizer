@@ -78,7 +78,7 @@ model.add(layers.Dense(10, activation='softmax'))
 model.summary()
 model.compile(optimizer='adam',loss='mse') # loss='sparse_categorical_crossentropy', optomizer='rmsprop'
 
-for e in range(10000):
+for e in range(100000):
     for i,j in enumerate(x):
         model.fit(x=x[i],y=y[i], batch_size=1,verbose=1, epochs=1)
 
@@ -102,29 +102,3 @@ for i,z in enumerate(test_images):
     img = array_to_img(rgb_image)
     img.save("./img_predictions/{}.jpg".format(i))
     img.show()
-
-# convert to lab- black and white image
-#z=get_lab(np.array(img_to_array(load_img("./TestImages/test2.jpg")), dtype=float))
-#z = z.reshape(1, z.shape[0], z.shape[1], 1)
-
-# make predictions
-# output = model.predict(test_images)
-# print(output.shape)
-# output*=128
-
-# make sure output has the correct shape
-# for i in range(len(output)):
-#     cur = np.zeros((256,256,3))
-#     cur[:,:,0] = test_images[i][:,:,0] # L layer?
-#     cur[:,:,1:] = output[i] # A B layers?
-#     rgb_image = lab2rgb(cur)
-#     img = array_to_img(rgb_image)
-#     img.show()
-#print(cur.shape)
-
-# convert to rgb
-# rgb_image = lab2rgb(cur)
-
-# img = array_to_img(rgb_image)
-# img.save("./img_predictions/01.jpg")
-# img.show()
