@@ -84,24 +84,31 @@ for i,j in enumerate(x):
 # evaluate model
 # model.evaluate(x, y, batch_size=1)
 
+
+#Load test images
+test_images = get_images("./TestImages/")
 # convert to lab- black and white image
-z=get_lab(np.array(img_to_array(load_img("./TestImages/test2.jpg")), dtype=float))
-z = z.reshape(1, z.shape[0], z.shape[1], 1)
+#z=get_lab(np.array(img_to_array(load_img("./TestImages/test2.jpg")), dtype=float))
+#z = z.reshape(1, z.shape[0], z.shape[1], 1)
 
 # make predictions
-output = model.predict(z)
+output = model.predict(test_images)
 print(output.shape)
 output*=128
 
 # make sure output has the correct shape
-cur = np.zeros((256,256,3))
-cur[:,:,0] = z[0][:,:,0] # L layer?
-cur[:,:,1:] = output[0] # A B layers?
-print(cur.shape)
+for i in range(len(output)):
+    cur = np.zeros((256,256,3))
+    cur[:,:,0] = test_images[i][:,:,0] # L layer?
+    cur[:,:,1:] = output[i] # A B layers?
+    rgb_image = lab2rgb(cur)
+    img = array_to_img(rgb_image)
+    img.show()
+#print(cur.shape)
 
 # convert to rgb
-rgb_image = lab2rgb(cur)
+#rgb_image = lab2rgb(cur)
 
-img = array_to_img(rgb_image)
-img.save("./img_predictions/01.jpg")
-img.show()
+#img = array_to_img(rgb_image)
+#img.save("./img_predictions/01.jpg")
+#img.show()
