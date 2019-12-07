@@ -79,6 +79,7 @@ model.summary()
 model.compile(optimizer='adam',loss='mse') # loss='sparse_categorical_crossentropy', optomizer='rmsprop'
 
 for e in range(100000):
+    print(e)
     for i,j in enumerate(x):
         model.fit(x=x[i],y=y[i], batch_size=1,verbose=1, epochs=1)
 
@@ -101,4 +102,4 @@ for i,z in enumerate(test_images):
 
     img = array_to_img(rgb_image)
     img.save("./img_predictions/{}.jpg".format(i))
-    img.show()
+    img.show() 
