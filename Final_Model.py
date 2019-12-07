@@ -77,13 +77,15 @@ model.add(layers.Dense(10, activation='softmax'))
 # get summary of layers and compile
 model.summary()
 model.compile(optimizer='adam',loss='mse') # loss='sparse_categorical_crossentropy', optomizer='rmsprop'
-model.fit(x=x,y=y, batch_size=10,verbose=0, epochs=100)
+
+for i,j in enumerate(x):
+    model.fit(x=x[i],y=y[i], batch_size=1,verbose=0, epochs=1000)
 
 # evaluate model
-model.evaluate(x, y, batch_size=10)
+# model.evaluate(x, y, batch_size=1)
 
 # convert to lab- black and white image
-z=get_lab(np.array(img_to_array(load_img("./TestImages/test0.jpg")), dtype=float))
+z=get_lab(np.array(img_to_array(load_img("./TestImages/test1.jpg")), dtype=float))
 z = z.reshape(1, z.shape[0], z.shape[1], 1)
 
 # make predictions
@@ -92,7 +94,7 @@ print(output.shape)
 output*=128
 
 # make sure output has the correct shape
-cur = np.zeros(z.shape)
+cur = np.zeros((256,256,3))
 cur[:,:,0] = z[0][:,:,0] # L layer?
 cur[:,:,1:] = output[0] # A B layers?
 print(cur.shape)
