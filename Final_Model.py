@@ -78,8 +78,7 @@ model.add(layers.Dense(10, activation='softmax'))
 model.summary()
 model.compile(optimizer='adam',loss='mse') # loss='sparse_categorical_crossentropy', optomizer='rmsprop'
 
-for e in range(100000):
-    print(e)
+for e in range(1000):
     for i,j in enumerate(x):
         model.fit(x=x[i],y=y[i], batch_size=1,verbose=1, epochs=1)
 
