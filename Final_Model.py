@@ -10,7 +10,7 @@ from tensorflow.keras import layers
 from tensorflow.keras.layers import Conv2D, InputLayer, UpSampling2D
 import os
 
-import pickle
+from tqdm import tqdm_gui
 
 
 def get_lab(img):
@@ -76,10 +76,9 @@ model.compile(optimizer='adam',loss='mse') # loss='sparse_categorical_crossentro
 
 
 # there is an issue fitting the data
-for e in range(1000):
-    print(e)
+for e in tqdm_gui(range(1000)):
     for i,j in enumerate(x):
-        model.fit(x=x[i],y=y[i], batch_size=1,verbose=0, epochs=1)
+        model.fit(x=x[i],y=y[i], batch_size=50,verbose=0, epochs=1)
 
 # evaluate model
 # model.evaluate(x, y, batch_size=1)
