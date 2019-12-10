@@ -34,19 +34,12 @@ def get_images(path, color="lab"):
                 images.append(img.reshape(1,img.shape[0],img.shape[1],2))
     return images
 
-#print (get_images("./TrainImages/"))
-
-
 '''
 Convert all training images from the RGB color space to the Lab color space.
 Use the L channel as the input to the network and train the network to predict the ab channels.
 Combine the input L channel with the predicted ab channels.
 Convert the Lab image back to RGB.
 '''
-
-# The Conv2D layer we will use later expects the inputs and training outputs to be of the following format:
-# (samples, rows, cols, channels), so we need to do some reshaping
-# https://keras.io/layers/convolutional/
 x = get_images("./TrainImages/") #l value only
 print(len(x))
 y = get_images("./TrainImages/", color="yes") #a and b values
@@ -81,6 +74,8 @@ model.add(layers.Dense(10, activation='softmax'))
 model.summary()
 model.compile(optimizer='adam',loss='mse') # loss='sparse_categorical_crossentropy', optomizer='rmsprop'
 
+
+# there is an issue fitting the data
 for e in range(1000):
     print(e)
     for i,j in enumerate(x):
