@@ -76,7 +76,7 @@ model.compile(optimizer='adam',loss='mse') # loss='sparse_categorical_crossentro
 
 
 # there is an issue fitting the data
-for e in tqdm(range(1000)):
+for e in tqdm(range(10)):
     for i,j in enumerate(x):
         model.fit(x=x[i],y=y[i], batch_size=50,verbose=0, epochs=1)
 
