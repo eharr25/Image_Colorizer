@@ -40,9 +40,9 @@ Use the L channel as the input to the network and train the network to predict t
 Combine the input L channel with the predicted ab channels.
 Convert the Lab image back to RGB.
 '''
-x = get_images("./TrainImages/") #l value only
+x = get_images("./Image_Colorizer/TrainImages/") #l value only
 print(len(x))
-y = get_images("./TrainImages/", color="yes") #a and b values
+y = get_images("./Image_Colorizer/TrainImages/", color="yes") #a and b values
 
 # Recreate the exact same model, including its weights and the optimizer
 # model = tf.keras.models.load_model('./img_predictions/model.h5')
@@ -84,11 +84,11 @@ for e in tqdm(range(10)):
 # model.evaluate(x, y, batch_size=1)
 
 # save model
-model.save('./img_predictions/model.h5') 
+model.save('./Image_Colorizer/img_predictions/model.h5') 
 
 
 #Load test images
-test_images = get_images("./TestImages/")
+test_images = get_images("./Image_Colorizer/TestImages/")
 print(len(test_images))
 
 for i,z in enumerate(test_images):
@@ -101,5 +101,5 @@ for i,z in enumerate(test_images):
     rgb_image = lab2rgb(cur)
 
     img = array_to_img(rgb_image)
-    img.save("./img_predictions/{}.jpg".format(i))
+    img.save("./Image_Colorizer/img_predictions/{}.jpg".format(i))
     img.show() 
