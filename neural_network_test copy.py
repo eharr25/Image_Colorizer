@@ -95,7 +95,7 @@ model.compile(optimizer='rmsprop',loss='mse')
 
 model.fit(x=x_train, y=x_target, batch_size=1, epochs=30)
 
-output = model.predict(x_test)
+output = model.predict(x_train)
 img = array_to_img(output)
 img.show()
 
