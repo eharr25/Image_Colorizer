@@ -20,10 +20,10 @@ Convert the Lab image back to RGB.
 
 # import train and target data
 # colored photo to train on
-train0 = np.array(img_to_array(load_img("target1.jpg")), dtype=float)
+train0 = np.array(img_to_array(load_img("./Image_Colorizer/TestImages/0AEYvu.jpg")), dtype=float)
 # print(train0.shape)---(256, 256, 3)
 # our black and white photo to test on
-train1 = np.array(img_to_array(load_img("test1.jpg")), dtype=float)
+train1 = np.array(img_to_array(load_img("./Image_Colorizer/TestImages/0AEYvu.jpg")), dtype=float)
 # print(train1.shape)---(256, 256, 3)
 
 # convert data from RGB to LAB and normalize-(we normalize by diving by 255--this gives us a value between 0 and 1)
@@ -63,7 +63,7 @@ model.add(layers.Dense(10, activation='softmax'))
 # get summary of layers and compile
 model.summary()
 model.compile(optimizer='adam',loss='mse') # loss='sparse_categorical_crossentropy', optomizer='rmsprop'
-model.fit(x=x,y=y, batch_size=1,verbose=0, epochs=10000)
+model.fit(x=x,y=y, batch_size=50,verbose=1, epochs=100)
 
 # evaluate model
 model.evaluate(x, y, batch_size=1)
