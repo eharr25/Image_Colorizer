@@ -23,7 +23,7 @@ def get_color(img):
     return x
 
 def get_images(path, color="lab"):
-    images = list()
+    images = np.ndarray(0,0,0,0) #(image#, height, width, depth(channels))
     for filename in os.listdir(path):
         if filename[0] != '.':
             if color == "lab":
@@ -49,7 +49,7 @@ y = get_images("./Image_Colorizer/OurTrainingImages/", color="yes") #a and b val
 
 # create model
 model = Sequential()
-model.add(InputLayer(input_shape=(None, None, 1))) # input shape is only needed for first layer? input_shape=(256, 256, 3)
+model.add(InputLayer(input_shape=(None, None, None, 1))) # input shape is only needed for first layer? input_shape=(img#, 256, 256, lab(channels))
 # 3x3 kernel used and 8 filters?
 model.add(Conv2D(8, (3, 3), activation='relu', padding='same', strides=2))
 model.add(Conv2D(16, (3, 3), activation='relu', padding='same'))
@@ -74,9 +74,10 @@ model.add(layers.Dense(10, activation='softmax'))
 model.summary()
 model.compile(optimizer='adam',loss='mse') # loss='sparse_categorical_crossentropy', optomizer='rmsprop'
 
+print(x.shape)
 
 # there is an issue fitting the data
-model.fit(x=np.concatenate(x),y=np.concatenate(y), batch_size=25,verbose=1, epochs=2)
+model.fit(x=x,y=y, batch_size=50,verbose=1, epochs=1)
 
 # evaluate model
 # model.evaluate(x, y, batch_size=1)
