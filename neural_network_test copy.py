@@ -76,10 +76,10 @@ model.compile(optimizer='adam',loss='mse') # loss='sparse_categorical_crossentro
 
 
 # there is an issue fitting the data
-model.fit(x=np.concatenate(x),y=np.concatenate(y), batch_size=50,verbose=1, epochs=100)
+model.fit(x=np.concatenate(x),y=np.concatenate(y), batch_size=25,verbose=1, epochs=2)
 
 # evaluate model
-model.evaluate(x, y, batch_size=1)
+# model.evaluate(x, y, batch_size=1)
 
 # save model
 # model.save('./Image_Colorizer/img_predictions/model.h5') 
