@@ -1,15 +1,13 @@
 # import libraries
-import tensorflow as tf
-from skimage.color import lab2rgb, rgb2lab
-from tensorflow.keras.preprocessing.image import array_to_img
-from tensorflow.keras.preprocessing.image import load_img
-from tensorflow.keras.preprocessing.image import img_to_array
-import numpy as np
-from tensorflow.keras.models import Sequential
-from tensorflow.keras import layers
-from tensorflow.keras.layers import Conv2D, InputLayer, UpSampling2D
 import os
 
+import numpy as np
+import tensorflow as tf
+from skimage.color import lab2rgb, rgb2lab
+from tensorflow.keras import layers
+from tensorflow.keras.layers import Conv2D, InputLayer, UpSampling2D
+from tensorflow.keras.models import Sequential
+from tensorflow.keras.preprocessing.image import (array_to_img, img_to_array,load_img)
 from tqdm import tqdm
 
 

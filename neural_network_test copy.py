@@ -76,7 +76,7 @@ model.compile(optimizer='adam',loss='mse') # loss='sparse_categorical_crossentro
 
 
 # there is an issue fitting the data
-model.fit(x=x,y=y, batch_size=50,verbose=1, epochs=100)
+model.fit(x=np.concatenate(x),y=np.concatenate(y), batch_size=50,verbose=1, epochs=100)
 
 # evaluate model
 model.evaluate(x, y, batch_size=1)
