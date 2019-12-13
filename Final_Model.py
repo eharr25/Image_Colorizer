@@ -76,7 +76,7 @@ model.compile(optimizer='adam',loss='mse') # loss='sparse_categorical_crossentro
 # there is an issue fitting the data
 for e in tqdm(range(10)):
     for i,j in enumerate(x):
-        model.fit(x=x[i],y=y[i], batch_size=50,verbose=0, epochs=1)
+        model.fit(x=x[i],y=y[i], batch_size=50,verbose=1,steps_per_epoch=1000, epochs=1)
 
 # evaluate model
 # model.evaluate(x, y, batch_size=1)
@@ -87,7 +87,7 @@ model.save('./Image_Colorizer/img_predictions/model.h5')
 
 #Load test images
 test_images = get_images("./Image_Colorizer/TestImages/")
-print(len(test_images))
+# print(len(test_images))
 
 for i,z in enumerate(test_images):
     # make predictions
