@@ -22,9 +22,6 @@ Convert the Lab image back to RGB.
 # colored photo to train on
 train0 = np.array(img_to_array(load_img("./Image_Colorizer/TestImages/0AEYvu.jpg")), dtype=float)
 # print(train0.shape)---(256, 256, 3)
-# our black and white photo to test on
-train1 = np.array(img_to_array(load_img("./Image_Colorizer/TestImages/0AEYvu.jpg")), dtype=float)
-# print(train1.shape)---(256, 256, 3)
 
 # convert data from RGB to LAB and normalize-(we normalize by diving by 255--this gives us a value between 0 and 1)
 x_train = rgb2lab(train0/255)[:,:,0] # this is the L layer- the black and white values
@@ -63,23 +60,30 @@ model.add(layers.Dense(10, activation='softmax'))
 # get summary of layers and compile
 model.summary()
 model.compile(optimizer='adam',loss='mse') # loss='sparse_categorical_crossentropy', optomizer='rmsprop'
-model.fit(x=x,y=y, batch_size=50,verbose=1, epochs=100)
+model.fit(x=x,y=y, batch_size=50,verbose=1, epochs=500)
 
 # evaluate model
 model.evaluate(x, y, batch_size=1)
 
 # convert to lab- black and white image
-x_train = rgb2lab(train1/255)[:,:,0] # this is the L layer- the black and white values
-z = x_train.reshape(1, x_train.shape[0], x_train.shape[1], 1)
+# our black and white photo to test on
+train0 = np.array(img_to_array(load_img("./Image_Colorizer/TestImages/swim.jpg")), dtype=float)
+# convert data from RGB to LAB and normalize-(we normalize by diving by 255--this gives us a value between 0 and 1)
+x_train = rgb2lab(train0/255)[:,:,0] # this is the L layer- the black and white values
+x_target = rgb2lab(train0/255)[:,:,1:] # this is the A and B values; a-magenta-green; b-yellow-blue
+x_target/=128
+
+x = x_train.reshape(1, x_train.shape[0], x_train.shape[1], 1)
+y = x_target.reshape(1, x_target.shape[0], x_target.shape[1], 2)
 
 # make predictions
-output = model.predict(z)
+output = model.predict(x)
 print(output.shape)
 output*=128
 
 # make sure output has the correct shape
 cur = np.zeros(train0.shape)
-cur[:,:,0] = z[0][:,:,0] # L layer?
+cur[:,:,0] = x[0][:,:,0] # L layer?
 cur[:,:,1:] = output[0] # A B layers?
 print(cur.shape)
 
@@ -87,4 +91,5 @@ print(cur.shape)
 rgb_image = lab2rgb(cur)
 
 img = array_to_img(rgb_image)
+img.save("./Image_Colorizer/img_predictions/001.jpg")
 img.show()
