@@ -1,5 +1,5 @@
-Images used- (2130) up to xx99xx(name)
-Epochs- 1000
-Test images- 492
+Images used- 521
+Epochs- 10000
+Test images- 521
 
 Notes- saved weights
