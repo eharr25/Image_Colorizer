@@ -86,7 +86,7 @@ model.save('./img_predictions/model.h5')
 
 
 #Load test images
-test_images = get_images("./TestImages/")
+test_images = get_images("./OurTrainingImages/")
 # print(len(test_images))
 
 for i,z in enumerate(test_images):
