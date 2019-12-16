@@ -51,28 +51,18 @@ model.add(UpSampling2D((2, 2)))
 model.add(Conv2D(16, (3, 3), activation='relu', padding='same'))
 model.add(UpSampling2D((2, 2)))
 model.add(Conv2D(2, (3,3), activation='tanh', padding='same'))
-# get working after we get NN working better
-'''
-# supposed to soften image
-model.add(layers.Dense(64, activation='relu'))
-model.add(layers.Dense(10, activation='softmax'))
-'''
 # get summary of layers and compile
 model.summary()
 model.compile(optimizer='adam',loss='mse') # loss='sparse_categorical_crossentropy', optomizer='rmsprop'
 model.fit(x=x,y=y, batch_size=50,verbose=1, epochs=500)
-
 # evaluate model
 model.evaluate(x, y, batch_size=1)
 
-# convert to lab- black and white image
 # our black and white photo to test on
 train0 = np.array(img_to_array(load_img("./Image_Colorizer/TestImages/swim.jpg")), dtype=float)
-# convert data from RGB to LAB and normalize-(we normalize by diving by 255--this gives us a value between 0 and 1)
 x_train = rgb2lab(train0/255)[:,:,0] # this is the L layer- the black and white values
 x_target = rgb2lab(train0/255)[:,:,1:] # this is the A and B values; a-magenta-green; b-yellow-blue
 x_target/=128
-
 x = x_train.reshape(1, x_train.shape[0], x_train.shape[1], 1)
 y = x_target.reshape(1, x_target.shape[0], x_target.shape[1], 2)
 
@@ -91,5 +81,5 @@ print(cur.shape)
 rgb_image = lab2rgb(cur)
 
 img = array_to_img(rgb_image)
-img.save("./Image_Colorizer/img_predictions/001.jpg")
+# img.save("./Image_Colorizer/img_predictions/001.jpg")
 img.show()
